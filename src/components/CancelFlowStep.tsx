@@ -47,7 +47,7 @@ export default function CancelFlowStep({
             className={`w-full p-3 text-center rounded-lg border transition-all ${
               selectedOption === option.id
                 ? 'border-purple-500 bg-purple-50'
-                : 'border-gray-300 hover:border-gray-400 bg-gray-50'
+                : 'border-gray-300 hover:border-purple-400 bg-gray-50'
             }`}
           >
             <span className="font-medium text-gray-700">{option.label}</span>
