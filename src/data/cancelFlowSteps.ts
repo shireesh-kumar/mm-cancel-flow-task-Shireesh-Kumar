@@ -9,7 +9,4 @@ export const cancelFlowSteps = {
       { id: 'still-looking', label: "Not yet – I'm still looking" }
     ]
   },
-  // Add more steps here as needed
-  // foundJob: { ... },
-  // stillLooking: { ... },
 };

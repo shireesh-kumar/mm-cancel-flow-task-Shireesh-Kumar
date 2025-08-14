@@ -6,8 +6,8 @@ import CancelFlowStep from '@/components/CancelFlowStep';
 import { cancelFlowSteps } from '@/data/cancelFlowSteps';
 import JobSuccessStep from '@/components/JobSuccessStep';
 import FeedbackStep from '@/components/FeedbackStep';
-import VisaStepYes from '@/components/VisaStepYes';
-import VisaStepNo from '@/components/VisaStepNo';
+import VisaStepWithMMHelp from '@/components/VisaStepWithMMHelp';
+import VisaStepWithoutMMHelp from '@/components/VisaStepWithoutMMHelp';
 
 export default function CancelPage() {
   const router = useRouter();
@@ -140,10 +140,10 @@ export default function CancelPage() {
               <FeedbackStep onContinue={handleFeedbackContinue} />
             )}
             {currentStep === 'visa' && userAnswers.foundWithMigrateMate === 'Yes' && (
-              <VisaStepYes onComplete={handleVisaComplete} />
+              <VisaStepWithMMHelp onComplete={handleVisaComplete} />
             )}
             {currentStep === 'visa' && userAnswers.foundWithMigrateMate === 'No' && (
-              <VisaStepNo onComplete={handleVisaComplete} />
+              <VisaStepWithoutMMHelp onComplete={handleVisaComplete} />
             )}
           </div>
         </div>

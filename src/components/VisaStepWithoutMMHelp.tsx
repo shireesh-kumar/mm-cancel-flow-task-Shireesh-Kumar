@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 
-interface VisaStepYesProps {
+interface VisaStepWithoutMMHelpProps {
   onComplete: () => void;
 }
 
-export default function VisaStepYes({ onComplete }: VisaStepYesProps) {
+export default function VisaStepWithMMHelp({ onComplete }: VisaStepWithoutMMHelpProps) {
   const [selectedOption, setSelectedOption] = useState('');
   const [visaType, setVisaType] = useState('');
 
@@ -31,10 +31,9 @@ export default function VisaStepYes({ onComplete }: VisaStepYesProps) {
   return (
     <div className="w-full max-w-md flex flex-col justify-between">
       <div>
-        <h2 className="text-2xl font-bold text-gray-800 leading-tight mb-4">
-          We helped you land the job, now let's help you secure your visa.
-        </h2>
-        
+        <h1 className="text-2xl font-bold text-gray-800 leading-tight mb-4">
+          You landed the job!<br></br> That's what we live for.
+        </h1>
         <p className="text-gray-600 leading-relaxed mb-0">
           Is your company providing an immigration lawyer to help with your visa?
         </p>
