@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 interface VisaStepWithoutMMHelpProps {
-  onComplete: () => void;
+  onComplete: (visaHelp: string) => void;
 }
 
 export default function VisaStepWithMMHelp({ onComplete }: VisaStepWithoutMMHelpProps) {
@@ -95,7 +95,7 @@ export default function VisaStepWithMMHelp({ onComplete }: VisaStepWithoutMMHelp
       </div>
 
       <button
-        onClick={onComplete}
+        onClick={() => onComplete(selectedOption)}
         disabled={!isComplete}
         className={`w-full mt-6 p-3 text-center rounded-lg transition-all ${
           isComplete

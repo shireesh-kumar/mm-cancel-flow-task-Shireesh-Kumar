@@ -8,13 +8,16 @@ import JobSuccessStep from '@/components/JobSuccessStep';
 import FeedbackStep from '@/components/FeedbackStep';
 import VisaStepWithMMHelp from '@/components/VisaStepWithMMHelp';
 import VisaStepWithoutMMHelp from '@/components/VisaStepWithoutMMHelp';
+import VisaCompletionYes from '@/components/VisaCompletionYes';
+import VisaCompletionNo from '@/components/VisaCompletionNo';
 
 export default function CancelPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState('initial');
   const [selectedOption, setSelectedOption] = useState('');
   const [userAnswers, setUserAnswers] = useState({
-    foundWithMigrateMate: ''
+    foundWithMigrateMate: '',
+    visaHelp: ''
   });
 
   const handleOptionClick = (option: string) => {
@@ -30,7 +33,12 @@ export default function CancelPage() {
     setCurrentStep('visa');
   };
 
-  const handleVisaComplete = () => {
+  const handleVisaComplete = (visaHelp: string) => {
+    setUserAnswers(prev => ({ ...prev, visaHelp }));
+    setCurrentStep('completion');
+  };
+
+  const handleFinalComplete = () => {
     console.log('Cancellation completed');
     router.push('/');
   };
@@ -43,6 +51,8 @@ export default function CancelPage() {
       setCurrentStep('jobSuccess');
     } else if (currentStep === 'visa') {
       setCurrentStep('feedback');
+    } else if (currentStep === 'completion') {
+      setCurrentStep('visa');
     } else {
       router.push('/');
     }
@@ -69,24 +79,30 @@ export default function CancelPage() {
             </button>
           )}
           <div className="flex flex-col items-center flex-1 mx-4">
-            <h1 className="text-lg font-bold text-gray-900 text-center">Subscription Cancellation</h1>
+            <h1 className="text-lg font-bold text-gray-900 text-center">
+              {currentStep === 'completion' ? 'Subscription Cancelled' : 'Subscription Cancellation'}
+            </h1>
             {currentStep !== 'initial' && (
               <div className="flex items-center gap-2 mt-1">
                 <div className="flex gap-1">
                   <div className={`w-4 h-2 rounded-sm ${
+                    currentStep === 'completion' ? 'bg-green-500' :
                     currentStep === 'jobSuccess' ? 'bg-gray-400' : 
                     (currentStep === 'feedback' || currentStep === 'visa') ? 'bg-green-500' : 'bg-gray-300'
                   }`} />
                   <div className={`w-4 h-2 rounded-sm ${
+                    currentStep === 'completion' ? 'bg-green-500' :
                     currentStep === 'feedback' ? 'bg-gray-400' : 
                     currentStep === 'visa' ? 'bg-green-500' : 'bg-gray-300'
                   }`} />
                   <div className={`w-4 h-2 rounded-sm ${
+                    currentStep === 'completion' ? 'bg-green-500' :
                     currentStep === 'visa' ? 'bg-gray-400' : 'bg-gray-300'
                   }`} />
                 </div>
                 <span className="text-xs text-gray-500 ml-2">
-                  Step {currentStep === 'jobSuccess' ? '1' : currentStep === 'feedback' ? '2' : '3'} of 3
+                  {currentStep === 'completion' ? 'Completed' : 
+                   `Step ${currentStep === 'jobSuccess' ? '1' : currentStep === 'feedback' ? '2' : '3'} of 3`}
                 </span>
               </div>
             )}
@@ -102,7 +118,9 @@ export default function CancelPage() {
         </div>
 
         <div className={`flex flex-col md:grid md:grid-cols-2 ${
-          currentStep === 'jobSuccess' ? 'md:h-[520px]' : currentStep === 'feedback' ? 'md:h-[450px]' : 'md:h-[440px]'
+          currentStep === 'jobSuccess' ? 'md:h-[520px]' : 
+          currentStep === 'feedback' ? 'md:h-[450px]' : 
+          currentStep === 'completion' ? 'md:h-[400px]' : 'md:h-[440px]'
         }`}>
           <div className="order-1 md:order-2 h-full px-4 pt-2 pb-4 sm:px-5 sm:pt-3 sm:pb-5 md:px-6 md:pt-3 md:pb-6 lg:px-8 lg:pt-4 lg:pb-8 flex">
             <div className="relative flex-1 rounded-xl overflow-hidden">
@@ -144,6 +162,12 @@ export default function CancelPage() {
             )}
             {currentStep === 'visa' && userAnswers.foundWithMigrateMate === 'No' && (
               <VisaStepWithoutMMHelp onComplete={handleVisaComplete} />
+            )}
+            {currentStep === 'completion' && userAnswers.visaHelp === 'Yes' && (
+              <VisaCompletionYes onFinish={handleFinalComplete} />
+            )}
+            {currentStep === 'completion' && userAnswers.visaHelp === 'No' && (
+              <VisaCompletionNo onFinish={handleFinalComplete} />
             )}
           </div>
         </div>
