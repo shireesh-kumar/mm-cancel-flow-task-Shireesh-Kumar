@@ -4,9 +4,10 @@ import { useState } from 'react';
 
 interface JobSuccessStepProps {
   onOptionClick: (option: string) => void;
+  onAnswerChange: (question: string, answer: string) => void;
 }
 
-export default function JobSuccessStep({ onOptionClick }: JobSuccessStepProps) {
+export default function JobSuccessStep({ onOptionClick, onAnswerChange }: JobSuccessStepProps) {
   const [answers, setAnswers] = useState({
     foundWithMigrateMate: '',
     rolesApplied: '',
@@ -16,6 +17,9 @@ export default function JobSuccessStep({ onOptionClick }: JobSuccessStepProps) {
 
   const handleOptionClick = (question: string, value: string) => {
     setAnswers(prev => ({ ...prev, [question]: value }));
+    if (question === 'foundWithMigrateMate') {
+      onAnswerChange(question, value);
+    }
   };
 
   const isComplete = Object.values(answers).every(answer => answer !== '');
